@@ -1,0 +1,50 @@
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align="center", fig.height=4, fig.width=5)
+library(ggplot2)
+theme_set(theme_bw(base_size=12))
+library(tidyr)
+
+# Reads the csv file created in python
+StreptoPneumae <- read.csv("StreptoPneumae.csv")
+```
+
+## Project 3, Part II 
+*Nicholas Donahoe nrd485*
+
+### Statistical analysis
+
+```{r}
+# R code for statistical analysis goes here
+
+# Linear regression of the data
+fit <- lm(StreptoPneumae$Gene_Count ~ StreptoPneumae$hyp_CDS_Count + StreptoPneumae$CDS_Count, data = StreptoPneumae)
+summary(fit) # Results
+```
+*The results of the linear regression indicates that there is a significant relationship between the number of coding sequences and the number of number genes present in the strain (t = 6.276, df = 2 & 2, P < 0.05). The number of hypothetical proteins is not significantly related with gene count (t = 0.234, df = 2 & 2, P > 0.05).*
+
+### Plot 1
+
+```{r}
+# R code for plot 1 goes here
+
+# A bar chart of the the hypothetical protein counts for each strain
+ggplot(StreptoPneumae, aes(x = Strain, y = hyp_CDS_Count, fill = Strain)) + geom_col()
+```
+*The bar chart displays the number of hypothetical proteins present in each streptococcus pneumoniae strain. The 19F strain displayed the least amount of hypothetical proteins while the the 11a strain displayed the most amount of hypothetical proteins. Overall, the differences, relative to one another, in hypothetical protein counts does not appear to vary much amongst the strains, with the exception being 11A, which had the most notable difference in hypothetical protein count.*
+
+### Plot 2
+
+```{r}
+# R code for plot 2 goes here
+
+# A scatterplot of hyp_CDS_Count Vs CDS_Count distinguishing each point by strain type 
+ggplot(StreptoPneumae, aes(x=CDS_Count, y=hyp_CDS_Count)) + geom_point(aes(col = Strain))
+```
+*A scatterplot of the number of hypothetical proteins Vs the number of coding sequences is colored by the type of streptococcus pneumoniae strain. Strain 11a had less coding sequences than Xen35 and 335; yet, 11A resulted in the most amount hypothetical proteins. Also, despite strain D39V's relatively low amount of coding sequences, strains 335, D39V, and Xen35 had lower amounts of hypothetical proteins despite more coding sequences.*
+
+### Concluding Discussion
+
+*A linear regression was conducted on the data to see if there was any significant relationships between the number of genes and the two variables, the number of hypothetical proteins and number of coding sequences. The gene count was the dependent variable, explained by the number of coding sequences and the number of hypothetical proteins. The reason for this analysis was to determine whether a relationship existed between the overall number of genes and the number of coding sequences and hypothetical proteins. Significant relationships would indicate low variation amongst the strains. The variation amongst the strains mainly existed between the number of hypothetical proteins. This variation most likley indicates that strains with relatively high amounts of hypothetical proteins are less studied. Variation amongst the strains in gene frequency and coding sequence number was relatively low, which indicates that the strains are relatively similar in terms of number of genes and coding sequences. Further analysis is needed to explore the details within variation amongst the strains of streptococcus pneumoniae.*
+
+
